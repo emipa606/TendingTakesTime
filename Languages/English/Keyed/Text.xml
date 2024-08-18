@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <TTT.Increases>Increasing time:</TTT.Increases>
+  <TTT.IncreasesTT>The following factors increases tend-time</TTT.IncreasesTT>
+  <TTT.Decreases>Decreasing time:</TTT.Decreases>
+  <TTT.DecreasesTT>The following factors decrease tend-time</TTT.DecreasesTT>
+  <TTT.Multipliers>Multipliers</TTT.Multipliers>
+  <TTT.MultipliersTT>What values to multiply with when calculating the tend-time</TTT.MultipliersTT>
+  <TTT.HeavyBleeding>Heavy bleeding (variable increase)</TTT.HeavyBleeding>
+  <TTT.HeavyBleedingTT>If the patients total bleed-rate is above 75%, with a larger increase when above 125%</TTT.HeavyBleedingTT>
+  <TTT.LowBleeding>No/Low bleeding (variable decrease)</TTT.LowBleeding>
+  <TTT.LowBleedingTT>If the patients total bleed-rate is below 25%, with a larger decrease when no bleeding</TTT.LowBleedingTT>
+  <TTT.LifeThreatening>Life threatening injury (small increase)</TTT.LifeThreatening>
+  <TTT.LifeThreateningTT>If an injury is life threatening the tend-time will increase</TTT.LifeThreateningTT>
+  <TTT.Missing>Missing bodypart (large increase)</TTT.Missing>
+  <TTT.MissingTT>If the bodypart is missing fully the tend time will increase heavily</TTT.MissingTT>
+  <TTT.Permanent>Permanent injury (small decrease)</TTT.Permanent>
+  <TTT.PermanentTT>If an injury is permanent, the tend-time will decrease</TTT.PermanentTT>
+  <TTT.Internal>Internal injury (large increase)</TTT.Internal>
+  <TTT.InternalTT>If an injury is internal the tend-time will increase heavily</TTT.InternalTT>
+  <TTT.External>External injury (small decrease)</TTT.External>
+  <TTT.ExternalTT>If an injury is external the tend-time will decrease</TTT.ExternalTT>
+  <TTT.LargeDecrease>Large decrease: -{0}</TTT.LargeDecrease>
+  <TTT.SmallDecrease>Small decrease: -{0}</TTT.SmallDecrease>
+  <TTT.SmallIncrease>Small increase: +{0}</TTT.SmallIncrease>
+  <TTT.LargeIncrease>Large increase: +{0}</TTT.LargeIncrease>
+  <TTT.VerboseLogging>Verbose logging</TTT.VerboseLogging>
+  <TTT.VerboseLoggingTT>Will show the amount of tend-change as well as the reasons</TTT.VerboseLoggingTT>
+  <TTT.CurrentModVersion>Installed mod-version: {0}</TTT.CurrentModVersion>
+</LanguageData>
