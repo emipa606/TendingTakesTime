@@ -2,7 +2,7 @@
 <ModSyncNinjaData>
   <ID>68dd5876-a472-4fe1-b9ed-f1cdb6eb7a96</ID>
   <ModName>Tending Takes Time</ModName>
-  <Version>1.5.0</Version>
+  <Version>1.6.0</Version>
   <SaveBreaking>False</SaveBreaking>
   <Host name="Github">
     <Owner>emipa606</Owner>
@@ -12,7 +12,4 @@
     <Branch>master</Branch>
   </Host>
 </ModSyncNinjaData>
-
-
-
 

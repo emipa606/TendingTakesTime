@@ -10,7 +10,7 @@ internal class TendingTakesTimeMod : Mod
     /// <summary>
     ///     The instance of the settings to be read by the mod
     /// </summary>
-    public static TendingTakesTimeMod instance;
+    public static TendingTakesTimeMod Instance;
 
     private static string currentVersion;
 
@@ -20,7 +20,7 @@ internal class TendingTakesTimeMod : Mod
     /// <param name="content"></param>
     public TendingTakesTimeMod(ModContentPack content) : base(content)
     {
-        instance = this;
+        Instance = this;
         Settings = GetSettings<TendingTakesTimeSettings>();
         currentVersion = VersionFromManifest.GetVersionFromModMetaData(content.ModMetaData);
     }
@@ -46,60 +46,60 @@ internal class TendingTakesTimeMod : Mod
     /// <param name="rect"></param>
     public override void DoSettingsWindowContents(Rect rect)
     {
-        var listing_Standard = new Listing_Standard();
-        listing_Standard.Begin(rect);
-        listing_Standard.Label("TTT.Increases".Translate(), tooltip: "TTT.IncreasesTT".Translate());
-        listing_Standard.CheckboxLabeled("TTT.HeavyBleeding".Translate(), ref Settings.HeavyBleeding,
+        var listingStandard = new Listing_Standard();
+        listingStandard.Begin(rect);
+        listingStandard.Label("TTT.Increases".Translate(), tooltip: "TTT.IncreasesTT".Translate());
+        listingStandard.CheckboxLabeled("TTT.HeavyBleeding".Translate(), ref Settings.HeavyBleeding,
             "TTT.HeavyBleedingTT".Translate());
-        listing_Standard.CheckboxLabeled("TTT.LifeThreatening".Translate(), ref Settings.LifeThreatening,
+        listingStandard.CheckboxLabeled("TTT.LifeThreatening".Translate(), ref Settings.LifeThreatening,
             "TTT.LifeThreateningTT".Translate());
-        listing_Standard.CheckboxLabeled("TTT.Internal".Translate(), ref Settings.Internal,
+        listingStandard.CheckboxLabeled("TTT.Internal".Translate(), ref Settings.Internal,
             "TTT.InternalTT".Translate());
-        listing_Standard.CheckboxLabeled("TTT.Missing".Translate(), ref Settings.Missing,
+        listingStandard.CheckboxLabeled("TTT.Missing".Translate(), ref Settings.Missing,
             "TTT.MissingTT".Translate());
-        listing_Standard.Gap();
-        listing_Standard.Label("TTT.Decreases".Translate(), tooltip: "TTT.DecreasesTT".Translate());
-        listing_Standard.CheckboxLabeled("TTT.LowBleeding".Translate(), ref Settings.LowBleeding,
+        listingStandard.Gap();
+        listingStandard.Label("TTT.Decreases".Translate(), tooltip: "TTT.DecreasesTT".Translate());
+        listingStandard.CheckboxLabeled("TTT.LowBleeding".Translate(), ref Settings.LowBleeding,
             "TTT.LowBleedingTT".Translate());
-        listing_Standard.CheckboxLabeled("TTT.Permanent".Translate(), ref Settings.Permanent,
+        listingStandard.CheckboxLabeled("TTT.Permanent".Translate(), ref Settings.Permanent,
             "TTT.PermanentTT".Translate());
-        listing_Standard.CheckboxLabeled("TTT.External".Translate(), ref Settings.External,
+        listingStandard.CheckboxLabeled("TTT.External".Translate(), ref Settings.External,
             "TTT.ExternalTT".Translate());
-        listing_Standard.Gap();
-        listing_Standard.GapLine();
+        listingStandard.Gap();
+        listingStandard.GapLine();
 
-        listing_Standard.Label("TTT.Multipliers".Translate(), tooltip: "TTT.MultipliersTT".Translate());
-        Settings.LargeDecrease = listing_Standard.SliderLabeled(
+        listingStandard.Label("TTT.Multipliers".Translate(), tooltip: "TTT.MultipliersTT".Translate());
+        Settings.LargeDecrease = listingStandard.SliderLabeled(
             "TTT.LargeDecrease".Translate((1f - Settings.LargeDecrease).ToStringPercent()), Settings.LargeDecrease,
             0.1f,
             Settings.SmallDecrease);
-        Settings.SmallDecrease = listing_Standard.SliderLabeled(
+        Settings.SmallDecrease = listingStandard.SliderLabeled(
             "TTT.SmallDecrease".Translate((1f - Settings.SmallDecrease).ToStringPercent()), Settings.SmallDecrease,
             Settings.LargeDecrease, 1f);
-        Settings.SmallIncrease = listing_Standard.SliderLabeled(
+        Settings.SmallIncrease = listingStandard.SliderLabeled(
             "TTT.SmallIncrease".Translate((Settings.SmallIncrease - 1f).ToStringPercent()), Settings.SmallIncrease, 1f,
             Settings.LargeIncrease);
-        Settings.LargeIncrease = listing_Standard.SliderLabeled(
+        Settings.LargeIncrease = listingStandard.SliderLabeled(
             "TTT.LargeIncrease".Translate((Settings.LargeIncrease - 1f).ToStringPercent()), Settings.LargeIncrease,
             Settings.SmallIncrease, 2f);
-        listing_Standard.Gap();
+        listingStandard.Gap();
 
-        listing_Standard.GapLine();
-        if (listing_Standard.ButtonText("Reset".Translate(), widthPct: 0.25f))
+        listingStandard.GapLine();
+        if (listingStandard.ButtonText("Reset".Translate(), widthPct: 0.25f))
         {
             Settings.Reset();
         }
 
-        listing_Standard.CheckboxLabeled("TTT.VerboseLogging".Translate(), ref Settings.VerboseLogging,
+        listingStandard.CheckboxLabeled("TTT.VerboseLogging".Translate(), ref Settings.VerboseLogging,
             "TTT.VerboseLoggingTT".Translate());
         if (currentVersion != null)
         {
-            listing_Standard.Gap();
+            listingStandard.Gap();
             GUI.contentColor = Color.gray;
-            listing_Standard.Label("TTT.CurrentModVersion".Translate(currentVersion));
+            listingStandard.Label("TTT.CurrentModVersion".Translate(currentVersion));
             GUI.contentColor = Color.white;
         }
 
-        listing_Standard.End();
+        listingStandard.End();
     }
 }

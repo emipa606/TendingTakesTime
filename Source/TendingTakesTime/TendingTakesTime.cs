@@ -18,60 +18,62 @@ public static class TendingTakesTime
         var tendMultiplier = 1f;
         switch (patient.health.hediffSet.BleedRateTotal)
         {
-            case 0f when TendingTakesTimeMod.instance.Settings.LowBleeding:
-                tendMultiplier *= TendingTakesTimeMod.instance.Settings.LargeDecrease;
+            case 0f when TendingTakesTimeMod.Instance.Settings.LowBleeding:
+                tendMultiplier *= TendingTakesTimeMod.Instance.Settings.LargeDecrease;
                 LogMessage("No bleeding, large decrease to tend time");
                 break;
-            case < 0.25f when TendingTakesTimeMod.instance.Settings.LowBleeding:
-                tendMultiplier *= TendingTakesTimeMod.instance.Settings.SmallDecrease;
+            case < 0.25f when TendingTakesTimeMod.Instance.Settings.LowBleeding:
+                tendMultiplier *= TendingTakesTimeMod.Instance.Settings.SmallDecrease;
                 LogMessage("Minimal bleeding, decreased tend time");
                 break;
-            case > 1.25f when TendingTakesTimeMod.instance.Settings.HeavyBleeding:
-                tendMultiplier *= TendingTakesTimeMod.instance.Settings.LargeIncrease;
+            case > 1.25f when TendingTakesTimeMod.Instance.Settings.HeavyBleeding:
+                tendMultiplier *= TendingTakesTimeMod.Instance.Settings.LargeIncrease;
                 LogMessage("Massive bleeding, large increase to tend time");
                 break;
-            case > 0.75f when TendingTakesTimeMod.instance.Settings.HeavyBleeding:
-                tendMultiplier *= TendingTakesTimeMod.instance.Settings.SmallIncrease;
+            case > 0.75f when TendingTakesTimeMod.Instance.Settings.HeavyBleeding:
+                tendMultiplier *= TendingTakesTimeMod.Instance.Settings.SmallIncrease;
                 LogMessage("Heavy bleeding, increased tend time");
                 break;
         }
 
         foreach (var hediff in hediffsToTend)
         {
-            if (TendingTakesTimeMod.instance.Settings.LifeThreatening && hediff.IsCurrentlyLifeThreatening)
+            if (TendingTakesTimeMod.Instance.Settings.LifeThreatening && hediff.IsCurrentlyLifeThreatening)
             {
-                tendMultiplier *= TendingTakesTimeMod.instance.Settings.SmallIncrease;
+                tendMultiplier *= TendingTakesTimeMod.Instance.Settings.SmallIncrease;
                 LogMessage($"{hediff} is life threatening, increased tend time");
             }
 
-            if (TendingTakesTimeMod.instance.Settings.Permanent && hediff.IsPermanent() &&
+            if (TendingTakesTimeMod.Instance.Settings.Permanent && hediff.IsPermanent() &&
                 hediff is not Hediff_MissingPart)
             {
-                tendMultiplier *= TendingTakesTimeMod.instance.Settings.SmallDecrease;
+                tendMultiplier *= TendingTakesTimeMod.Instance.Settings.SmallDecrease;
                 LogMessage($"{hediff} is permanent injury, decreased tend time");
             }
 
             if (hediff.Part != null)
             {
-                if (TendingTakesTimeMod.instance.Settings.Internal && hediff.Part.depth == BodyPartDepth.Inside)
+                if (TendingTakesTimeMod.Instance.Settings.Internal && hediff.Part.depth == BodyPartDepth.Inside)
                 {
-                    tendMultiplier *= TendingTakesTimeMod.instance.Settings.LargeIncrease;
+                    tendMultiplier *= TendingTakesTimeMod.Instance.Settings.LargeIncrease;
                     LogMessage($"{hediff} affects internal bodypart, large increase to tend time");
                 }
 
-                if (TendingTakesTimeMod.instance.Settings.External && hediff.Part.depth == BodyPartDepth.Outside &&
+                if (TendingTakesTimeMod.Instance.Settings.External && hediff.Part.depth == BodyPartDepth.Outside &&
                     hediff is not Hediff_MissingPart)
                 {
-                    tendMultiplier *= TendingTakesTimeMod.instance.Settings.SmallDecrease;
+                    tendMultiplier *= TendingTakesTimeMod.Instance.Settings.SmallDecrease;
                     LogMessage($"{hediff} affects external bodypart, decreased tend time");
                 }
             }
 
-            if (TendingTakesTimeMod.instance.Settings.Missing && hediff is Hediff_MissingPart)
+            if (!TendingTakesTimeMod.Instance.Settings.Missing || hediff is not Hediff_MissingPart)
             {
-                tendMultiplier *= TendingTakesTimeMod.instance.Settings.LargeIncrease;
-                LogMessage($"{hediff} is missing bodypart, large increase to tend time");
+                continue;
             }
+
+            tendMultiplier *= TendingTakesTimeMod.Instance.Settings.LargeIncrease;
+            LogMessage($"{hediff} is missing bodypart, large increase to tend time");
         }
 
         return tendMultiplier;
@@ -79,7 +81,7 @@ public static class TendingTakesTime
 
     public static void LogMessage(string message)
     {
-        if (TendingTakesTimeMod.instance.Settings.VerboseLogging)
+        if (TendingTakesTimeMod.Instance.Settings.VerboseLogging)
         {
             Log.Message($"[TendingTakesTime]: {message}");
         }
