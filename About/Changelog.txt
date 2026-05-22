@@ -1,5 +1,8 @@
 # Changelog for TendingTakesTime
 
+1.6.1 - Pawns should not walk away during tending when the tend-time is increased
+
+
 1.6.0 - Mod updated for 1.6 and passed autotests
 
 

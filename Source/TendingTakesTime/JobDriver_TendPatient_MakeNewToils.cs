@@ -29,6 +29,14 @@ public static class JobDriver_TendPatient_MakeNewToils
                 var tendMultiplier = TendingTakesTime.CalculateTendOffset(hediffsToTend, patient);
                 __instance.ticksLeftThisToil = (int)(toil.defaultDuration * tendMultiplier);
 
+                // Also update the patient's wait job duration to match the new tend time
+                if (patient != actor && patient.CurJob != null)
+                {
+                    patient.CurJob.expiryInterval = __instance.ticksLeftThisToil;
+                    TendingTakesTime.LogMessage(
+                        $"Patient wait-duration changed to {patient.CurJob.expiryInterval}");
+                }
+
                 TendingTakesTime.LogMessage(
                     $"Tend-duration changed from {toil.defaultDuration} to {__instance.ticksLeftThisToil}");
             });
