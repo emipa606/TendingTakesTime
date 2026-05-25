@@ -1,5 +1,8 @@
 # Changelog for TendingTakesTime
 
+1.6.2 - Should no longer cause issues on bedridden pawns
+
+
 1.6.1 - Pawns should not walk away during tending when the tend-time is increased
 
 
