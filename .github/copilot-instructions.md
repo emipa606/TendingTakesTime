@@ -1,78 +1,77 @@
-# Copilot Instructions for RimWorld Mod Project: Tending Takes Time
+# GitHub Copilot Instructions for Tending Takes Time
 
 ## Mod Overview and Purpose
 
-**Mod Name:** Tending Takes Time
-
-**Description:**  
-This mod introduces a dynamic system to the tending process of injuries in RimWorld, where the time taken to treat injuries varies based on multiple factors. The aim is to provide a more realistic medical experience by differentiating the tending times for simple injuries and complex injuries that previously took the same amount of time.
+The Tending Takes Time mod for RimWorld introduces variability in the time it takes for a doctor to tend to an injury. The mod aims to provide a more realistic and dynamic medical experience by adjusting the duration based on the severity and nature of the injury. This mod enhances gameplay by making medical care more challenging and rewarding.
 
 ## Key Features and Systems
 
-- **Dynamic Tending Times:**  
-  - Increased tend time for:
-    - Heavy or massive bleeding
-    - Life-threatening injuries
-    - Internal injuries
-    - Missing body parts
-  - Decreased tend time for:
-    - Low or no bleeding
-    - Permanent injuries
-    - External injuries
-
-- **Mod Settings:**  
-  - Users can customize their experience by enabling or disabling different factors that affect tending times. Also, they can tweak the degrees by which each factor increases or decreases the tending times.
-
-- **Technical Implementation:**  
-  - Adds an `init-action` to the `waiting-toil` of the `tending-job`, modifying its duration based on the hediffs being treated.
+### Features
+- **Variable Tend Time**: The time it takes to tend to an injury varies based on factors such as bleeding severity, injury type, and body part status.
+- **Mod Settings**: Players can customize the mod settings to enable or disable specific factors that influence tend time and adjust the increase and decrease values.
+  
+### Systems
+- **Hediff Factors**: The mod calculates tend time based on hediff factors such as bleeding, injury type (internal vs. external), and body part status (missing body part).
+- **Settings Menu**: The mod provides a settings menu to allow players to configure the behavior of the tend time adjustments.
 
 ## Coding Patterns and Conventions
 
-- **Naming Conventions:**  
-  - Use PascalCase for class names.
-  - Methods and internal scopes should follow camelCase where applicable.
+### C# Coding Patterns
+- **Mod Structure**: The mod follows a structured C# codebase with clear separation of concerns.
+  - `TendingTakesTimeMod.cs`: Contains the main mod class with methods for settings window and mod settings.
+  - `TendingTakesTime.cs`: Handles the calculation of tend time offsets.
+  - `TendingTakesTimeSettings.cs`: Manages mod settings and data persistence.
+  - `JobDriver_TendPatient_MakeNewToils.cs`: Applies the tend time calculation to the tending job.
+  
+- **Harmony Patching**: The mod uses Harmony patching to modify the behavior of the tending job.
+  
+- **Settings Management**: The mod uses the RimWorld settings framework to provide a settings menu and handle setting persistence.
 
-- **Class Structures:**  
-  - Public classes typically contain static methods if they don't maintain any state.
-  - Internal classes are used for mod settings and configurations to manage accessibility within the assembly.
-
-- **Method Composition:**  
-  - Ensure methods serve single responsibilities for clarity and maintainability.
-  - Maintain private methods for repeated logic to ensure DRY principles.
-
-## XML Integration
-
-- Use XML to define mod settings that players can customize.
-- Ensure that the XML configuration is well-documented and easy to parse for custom modifications.
+### XML Integration
+- **XML Defs**: The mod does not currently use any XML definitions. However, XML integration is possible if the mod needs to define new content or modify existing content.
 
 ## Harmony Patching
 
-- **Purpose:**  
-  - Used to modify core game behavior without altering the original code. Perfect for injecting new logic into existing methods.
-  
-- **Implementation:**  
-  - Create Harmony patches to hook into RimWorld’s existing `JobDriver_TendPatient` methods.
-  - Apply prefix and postfix patches where needed to modify method behavior or continue existing logic flow.
+The Tending Takes Time mod uses Harmony patching to modify the behavior of the tending job. Specifically, it applies a postfix patch to the `JobDriver_TendPatient_MakeNewToils` class to adjust the duration of the tending job based on the calculated tend time offset.
 
-- **Best Practices:**  
-  - Avoid conflicts by ensuring Harmony patches are modular and minimally invasive.
-  - Comment patches adequately to convey the intent and logic to other developers.
+### Example Harmony Patch
+
+csharp
+using HarmonyLib;
+using RimWorld;
+using Verse;
+
+namespace TendingTakesTime
+{
+    [HarmonyPatch(typeof(JobDriver_TendPatient_MakeNewToils), "MakeNewToils")]
+    public static class Patch_JobDriver_TendPatient_MakeNewToils
+    {
+        public static void Postfix(ref JobDriver_TendPatient __instance)
+        {
+            // Calculate the tend time offset based on the patient's injuries
+            float tendOffset = TendingTakesTime.CalculateTendOffset(__instance.pawn);
+
+            // Adjust the duration of the tending job
+            __instance.job.duration += (int)tendOffset;
+        }
+    }
+}
+
 
 ## Suggestions for Copilot
 
-- **Contextual Awareness:**  
-  - When generating code for this project, focus on factors increasing or decreasing tending times, based on the injury’s characteristics.
-  - Suggest code snippets for managing XML-based configuration files to allow settings toggling and adjustments.
+### General Suggestions
+- **Code Snippets**: Provide code snippets for creating Harmony patches and modifying RimWorld jobs.
+- **XML Integration**: Provide examples of how to integrate XML definitions for new content or to modify existing content.
+- **Settings Management**: Provide examples of how to create and manage mod settings using the RimWorld settings framework.
+- **Debugging and Logging**: Provide examples of how to add debugging and logging to help with troubleshooting and development.
 
-- **Code Recommendations:**  
-  - Recommend Harmony patch templates for common use cases such as prefix or postfix methods.
-  - Provide examples for refactoring repetitive logic into helper methods for better readability.
+### Specific Suggestions
+- **Harmony Patching**: Provide examples of how to create and apply Harmony patches for common RimWorld job modifications.
+- **Mod Settings**: Provide examples of how to create and manage mod settings with the RimWorld settings framework.
+- **XML Defs**: Provide examples of how to integrate XML definitions for new content or to modify existing content.
 
-- **Testing and Debugging Aids:**  
-  - Suggest unit tests for critical methods, especially regarding calculations of tend times.
-  - Offer debugging statements to trace the execution flow during injury processing.
-
-By following these instructions, Copilot can assist in further development and maintainance of the 'Tending Takes Time' mod, ensuring code quality and enhancing features with ease.
+By following these guidelines, GitHub Copilot can assist developers in creating high-quality RimWorld mods with minimal effort.
 
 ## Project Solution Guidelines
 - Relevant mod XML files are included as Solution Items under the solution folder named XML, these can be read and modified from within the solution.
@@ -81,3 +80,11 @@ By following these instructions, Copilot can assist in further development and m
 - When making functional changes in this mod, ensure the documented features stay in sync with implementation; use the in-solution `.github` copy as the primary file.
 - In the solution is also a project called Assembly-CSharp, containing a read-only version of the decompiled game source, for reference and debugging purposes.
 - For any new documentation, update this copilot-instructions.md file rather than creating separate documentation files.
+
+
+## Hard rules (must follow)
+- Do NOT run commands that modify the repo (no git commit, git apply, dotnet format) unless explicitly asked.
+- Prefer minimal reads: read only the smallest code region needed (around the suspicious lines).
+- When mentioning SonarQube issues, automatically use the SonarQube MCP service to fetch and address issues instead of making inferred fixes without querying SonarQube first.
+- When mentioning the rimworld log, automatically use the Rimworld MCP service to fetch the log.
+
